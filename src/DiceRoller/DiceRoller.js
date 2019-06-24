@@ -8,4 +8,6 @@ DiceRoller.rollxd6 = (x) => {
     return results;
 }
 
+DiceRoller.toString = (roll) => roll.map(n => n + 1).join('')
+
 export default DiceRoller

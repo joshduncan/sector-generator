@@ -8,4 +8,13 @@ describe('Dice Roller', () => {
             expect(results.length).toEqual(3);
         })
     });
+
+    describe('toString', () => {
+        it('should take in a roll array and return the string that matches 1-6 instead of 0-5', () => {
+            const expected = '234';
+            const actual = DiceRoller.toString([1, 2, 3]);
+
+            expect(actual).toEqual(expected);
+        });
+    })
 });

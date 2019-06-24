@@ -1,4 +1,4 @@
-import DiceRoller from '../DiceRoller/DiceRoller'
+import DiceRoller from '../../DiceRoller/DiceRoller'
 
 const EnvironmentLogic = {}
 
@@ -21,8 +21,6 @@ EnvironmentLogic.table = [['Thick Woods', 'Thick Woods', 'Scrublands', 'Scrublan
 ['Decayed Ruins', 'Unscathed Ruins', 'Unscathed Ruins', 'Unscathed Ruins', 'Unscathed Ruins', 'Unscathed Ruins'],
 ['Derelict Industries', 'Derelict Industries', 'Derelict Industries', 'Derelict Industries', 'Settlement', 'Settlement']]
 
-EnvironmentLogic.distinctTypes = [...new Set(EnvironmentLogic.table.reduce((prev, cur) => {
-    return prev.concat(cur);
-}, []))];
+EnvironmentLogic.distinctTypes = [...new Set(EnvironmentLogic.table.reduce((prev, cur) => prev.concat(cur), []))];
 
 export default EnvironmentLogic;

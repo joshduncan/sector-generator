@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import EnvironmentLogic from './Environment.logic'
+import DiceRoller from '../../DiceRoller/DiceRoller';
 
 class Environment extends Component {
     state = {
@@ -28,7 +29,7 @@ class Environment extends Component {
             </React.Fragment>)
         if (this.state.random) {
             const {environment, roll} = EnvironmentLogic.getRandomEnvironment();
-            content = <div>{`${roll.join('')}: ${environment}`}</div>
+            content = <div>{`${DiceRoller.toString(roll)}: ${environment}`}</div>
         } else if (this.state.selected) {
             content = <div>{this.state.selected}</div>
         } else if (this.state.shouldSelect) {
