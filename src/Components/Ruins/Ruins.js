@@ -2,26 +2,26 @@ import React, {Component} from 'react'
 import RuinsLogic from './Ruins.logic'
 import DiceRoller from '../../DiceRoller/DiceRoller'
 
-class Environment extends Component {
+class Ruins extends Component {
     state = {
         random: this.props.random,
         shouldSelect: false,
         selected: undefined
     }
 
-    onRandomNormalEnvironment = () => {
+    onRandomNormalRuins = () => {
         this.setState({random: 'normal'});
     }
 
-    onSelectNormalEnvironment = () => {
+    onSelectNormalRuins = () => {
         this.setState({shouldSelect: 'normal'});
     }
 
-    onRandomIndustryEnvironment = () => {
+    onRandomIndustryRuins = () => {
         this.setState({random: 'industry'});
     }
 
-    onSelectIndustryEnvironment = () => {
+    onSelectIndustryRuins = () => {
         this.setState({shouldSelect: 'industry'});
     }
 
@@ -32,10 +32,10 @@ class Environment extends Component {
     render() {
         let content = (
             <React.Fragment>
-                <button onClick={this.onRandomNormalEnvironment}>Random Normal Environment</button>
-                <button onClick={this.onSelectNormalEnvironment}>Select Normal Environemnt</button>
-                <button onClick={this.onRandomIndustryEnvironment}>Random Industry Environment</button>
-                <button onClick={this.onSelectIndustryEnvironment}>Select Industry Environemnt</button>
+                <button onClick={this.onRandomNormalRuins}>Random Normal Ruins</button>
+                <button onClick={this.onSelectNormalRuins}>Select Normal Ruins</button>
+                <button onClick={this.onRandomIndustryRuins}>Random Industry Ruins</button>
+                <button onClick={this.onSelectIndustryRuins}>Select Industry Ruins</button>
             </React.Fragment>)
         if (this.state.random) {
             const logic = this.state.random === 'normal' ? RuinsLogic.normal : RuinsLogic.industry;
@@ -65,4 +65,4 @@ class Environment extends Component {
     }
 }
 
-export default Environment;
+export default Ruins;
