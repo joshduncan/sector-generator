@@ -1,56 +1,9 @@
-import React, {Component} from 'react'
-import EnvironmentLogic from './Environment.logic'
-import DiceRoller from '../../DiceRoller/DiceRoller';
+import React from 'react'
+import environmentData from './Environment.data';
+import Selector from '../Selector/Selector';
 
-class Environment extends Component {
-    state = {
-        random: this.props.random,
-        shouldSelect: false,
-        selected: undefined
-    }
-
-    onRandomEnvironment = () => {
-        this.setState({random: true});
-    }
-
-    onSelectEnvironment = () => {
-        this.setState({shouldSelect: true});
-    }
-
-    onEnvironmentChosen = ({target}) => {
-        this.setState({selected: target.innerText})
-    }
-
-    render() {
-        let content = (
-            <React.Fragment>
-                <button onClick={this.onRandomEnvironment}>Random Environment</button>
-                <button onClick={this.onSelectEnvironment}>Select Environemnt</button>
-            </React.Fragment>)
-        if (this.state.random) {
-            const {environment, roll} = EnvironmentLogic.getRandomEnvironment();
-            content = <div>{`${DiceRoller.toString(roll)}: ${environment}`}</div>
-        } else if (this.state.selected) {
-            content = <div>{this.state.selected}</div>
-        } else if (this.state.shouldSelect) {
-            const buttons = EnvironmentLogic.distinctTypes.map((type, idx) => {
-                return (<button key={idx} onClick={this.onEnvironmentChosen}>{type}</button>)
-            })
-            content = <React.Fragment>
-                    <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
-                    {buttons}
-                    </div>
-                </React.Fragment>
-        }
-
-        return (
-            <React.Fragment>
-                <h1>Environment:</h1>
-                <div style={{width:'100%'}}/>
-                {content}
-            </React.Fragment>
-        )
-    }
+const Environment = () => {
+    return <Selector title="Environment" data={environmentData}/>
 }
 
 export default Environment;

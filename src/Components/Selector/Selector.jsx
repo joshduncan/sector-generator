@@ -7,12 +7,12 @@ class Selector extends Component {
     state = {
         innerElement: '',
         innerFlavor: '',
-        innerRoll: -1,
+        innerRoll: [],
         outerElement: '',
-        outerRoll: -1,
+        outerRoll: [],
     }
 
-    setRandomMood = () => {
+    setRandomElement = () => {
         if (this.state.outerElement === '') {
             this.setState({outerElement: 'random'});
         } else {
@@ -49,19 +49,21 @@ class Selector extends Component {
         this.setState(newState);
     }
 
-    componentDidUpdate = () => {
-        if (!this.props.data[0].hasOwnProperty('heading')) {
+    componentDidMount = () => {
+        if (this.state.outerElement !== '---' && !this.props.data[0].hasOwnProperty('heading')) {
             this.setState({outerElement: '---'});
         }
+    }
+    componentDidUpdate = () => {
         if (this.state.outerElement === 'random') {
             const {element, roll} = SelectorLogic.selectRandomOuterElement(this.props.data);
             this.setState({outerElement: element.heading, outerRoll: roll, innerElement: 'random'});
         }
         if (this.state.innerElement === 'random') {
             let data = this.props.data;
-            if (this.state.outerRoll >= 0) {
+            if (this.state.outerRoll.length > 0) {
                 data = data[this.state.outerRoll].options
-            } else if (this.state.outerElement) {
+            } else if (this.state.outerElement && this.state.outerElement !== '---') {
                 data = data.find(el => el.heading === this.state.outerElement).options;
             }
             const {element, roll} = SelectorLogic.selectRandomElement(data);
@@ -69,11 +71,13 @@ class Selector extends Component {
         }
     }
 
+    
     render = () => {
+        const innerSelectorText = this.state.outerElement === '---' ? this.props.title: this.state.outerElement;
         return (<Fragment>
             <h1>{this.props.title}:</h1>
             <LineBreak />
-            {this.state.outerRoll >= 0 &&
+            {this.state.outerRoll.length > 0 && this.state.outerElement !== '---' &&
                 <h1>{DiceRoller.toString(this.state.outerRoll)}|&nbsp;</h1>
             }
             {this.state.outerElement && this.state.outerElement !== '---' &&  this.state.outerElement !== 'select' &&
@@ -81,7 +85,7 @@ class Selector extends Component {
             }
             {this.state.outerElement === '' &&
                 <Fragment>
-                    <button onClick={this.setRandomMood}>Random {this.props.title}</button>
+                    <button onClick={this.setRandomElement}>Random {this.props.title}</button>
                     <button onClick={this.setSelectElement}>Select {this.props.title}</button>
                 </Fragment>
             }
@@ -91,7 +95,7 @@ class Selector extends Component {
                 })
             }
             <LineBreak />
-            {this.state.innerRoll >= 0 &&
+            {this.state.innerRoll.length > 0 &&
                 <h1>{DiceRoller.toString(this.state.innerRoll)}|&nbsp;</h1>
             }
             {this.state.innerElement && this.state.innerElement !== 'select' &&
@@ -105,12 +109,17 @@ class Selector extends Component {
             }
             {this.state.innerElement === '' && this.state.outerElement && this.state.outerElement !== 'select' &&
                 <Fragment>
-                    <button onClick={this.setRandomMood}>Random {this.props.title}</button>
-                    <button onClick={this.setSelectElement}>Select {this.props.title}</button>
+                    <button onClick={this.setRandomElement}>Random {innerSelectorText}</button>
+                    <button onClick={this.setSelectElement}>Select {innerSelectorText}</button>
                 </Fragment>
             }
-            {this.state.innerElement === 'select' &&
+            {this.state.innerElement === 'select' && this.state.outerElement !== '---' &&
                 SelectorLogic.distinctValuesFromData(this.props.data.find(el => el.heading === this.state.outerElement).options).map((type, idx) => {
+                    return (<button key={idx} onClick={this.setInnerType}>{type}</button>)
+                })
+            }
+            {this.state.innerElement === 'select' && this.state.outerElement === '---' &&
+                SelectorLogic.distinctValuesFromData(this.props.data).map((type, idx) => {
                     return (<button key={idx} onClick={this.setInnerType}>{type}</button>)
                 })
             }
