@@ -4,6 +4,7 @@ import Environment from './Components/Environment/Environment'
 import Ruins from './Components/Ruins/Ruins';
 import Rot from './Components/Rot/Rot';
 import Threats from './Components/Threats/Threats';
+import Mood from './Components/MoodElement/Mood';
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
       </div>
       <div className='container'>
         <Threats/>
+      </div>
+      <div className='container'>
+        <Mood/>
       </div>
     </div>
   )

@@ -47,6 +47,15 @@ describe('Selector', () => {
         });
     });
 
+    describe('SelectRandomOuterElement', () => {
+        it('Should take in data and return a random top level element', () => {
+            const {roll, element} = SelectorLogic.selectRandomOuterElement(testData2d);
+            const expected = testData2d[roll[0]]
+
+            expect(element).toEqual(expected);
+        });
+    });
+
     describe('DistinctValuesFromData', () => {
         it('Should return a one dimensional array of distinct values based on headings', () => {
             const actual = SelectorLogic.distinctValuesFromData(distinctTestData);

@@ -12,13 +12,18 @@ import DiceRoller from "../../DiceRoller/DiceRoller";
         return {element: elementFromDataWithRoll(data, roll), roll}
     };
 
+    const selectRandomOuterElement = (data) => {
+        const roll = DiceRoller.rollxd6(1);
+        return {roll, element: data[roll[0]]};
+    }
+
     const elementFromDataWithRoll = (data, roll) => {
         return roll.reduce((prev, cur, idx) => idx === roll.length - 1 ? prev[cur] : prev[cur].options, data);
     };
 
     const distinctValuesFromData = (data) => {
         const reducer = (prev, cur) => {
-            if (cur.hasOwnProperty('options')) {
+            if (cur.hasOwnProperty('options') && !cur.hasOwnProperty('heading')) {
                 return prev.concat(cur.options.reduce(reducer, []));
             } else {
                 prev.push(cur.heading);
@@ -33,5 +38,6 @@ import DiceRoller from "../../DiceRoller/DiceRoller";
         distinctValuesFromData,
         elementFromDataWithRoll,
         selectRandomElement,
+        selectRandomOuterElement,
     }
 export default SelectorLogic;
